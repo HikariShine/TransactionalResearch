@@ -32,6 +32,13 @@ public class CustomerService {
         return newCustomer;
     }
 
+    @Transactional
+    public Customer createCustomerRequiredTransactionalTest(String name, String email) {
+        final Customer newCustomer = new Customer(name, email);
+        customerRepository.insert(newCustomer);
+        return newCustomer;
+    }
+
     @Transactional(propagation = Propagation.SUPPORTS)
     public Customer createCustomerSupportsTransactionalTest(String name, String email) {
         final Customer newCustomer = new Customer(name, email);

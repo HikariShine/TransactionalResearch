@@ -51,9 +51,13 @@ public class CustomerServiceTest {
     }
 
     @Test
+    public void testSimpleTransactional() throws Exception {
+        customerService.createCustomerRequiredTransactionalTest("Matt", "matt@gmail.com");
+    }
+
+    @Test
     public void testNestedTransactional() throws Exception {
-        //when
-        final Customer returnedCustomer = customerTransactionalService.createCustomerSupportsTransactionalTest("Matt", "matt@gmail.com");
+        customerTransactionalService.createCustomerSupportsTransactionalTest("Matt", "matt@gmail.com");
     }
 
     @Test
