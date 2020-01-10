@@ -2,7 +2,7 @@ package com.mxixm.transactional.mybatis.service;
 
 import com.mxixm.transactional.mybatis.model.Customer;
 import com.mxixm.transactional.mybatis.repository.CustomerRepository;
-import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +22,20 @@ public class CustomerServiceTest {
     @Autowired
     private CustomerService customerService;
 
+
+    @Autowired
+    private CustomerTransactionalService customerTransactionalService;
+
     @Autowired
     private CustomerRepository customerRepository;
 
     @Autowired
     private MyOwnDataSourceService myOwnDataSourceService;
+
+    @Before
+    public void doClear() {
+        myOwnDataSourceService.doClear();
+    }
 
     @Test
     public void shouldPersistCustomerWithToken() throws Exception {
@@ -42,14 +51,14 @@ public class CustomerServiceTest {
     }
 
     @Test
-    public void doTest() {
+    public void testNestedTransactional() throws Exception {
+        //when
+        final Customer returnedCustomer = customerTransactionalService.createCustomerSupportsTransactionalTest("Matt", "matt@gmail.com");
+    }
+
+    @Test
+    public void doTestSavepoint() {
         myOwnDataSourceService.doTestSavepoint();
     }
-
-    @After
-    public void doClear() {
-        myOwnDataSourceService.doClear();
-    }
-
 
 }

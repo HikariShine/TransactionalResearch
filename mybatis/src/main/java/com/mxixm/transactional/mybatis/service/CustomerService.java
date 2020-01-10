@@ -5,6 +5,7 @@ import com.mxixm.transactional.mybatis.model.Customer;
 import com.mxixm.transactional.mybatis.repository.CustomerRepository;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -30,4 +31,20 @@ public class CustomerService {
         applicationEventPublisher.publishEvent(event);
         return newCustomer;
     }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Customer createCustomerSupportsTransactionalTest(String name, String email) {
+        final Customer newCustomer = new Customer(name, email);
+        customerRepository.insert(newCustomer);
+        int a = 1 / 0;
+        return newCustomer;
+    }
+
+    public Customer createCustomerSupportsWithoutTransactionalTest(String name, String email) {
+        final Customer newCustomer = new Customer(name, email);
+        customerRepository.insert(newCustomer);
+        int a = 1 / 0;
+        return newCustomer;
+    }
+
 }
